@@ -1,0 +1,68 @@
+---
+title: "R Markdown Demo"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+In this demo we continue to work with the starwars data 
+
+##Packages
+We start with loading the packages we'll use.
+```{r load-packages, message=FALSE ,warning=F}
+library(tidyverse)
+```
+
+First, let's try to `knit` this R Markdown file to a html file. Click on the `knit` button on top. It should open a html page.
+
+In class, we have seen these two plots. Now each member of your group can choose one block and modified the code with in that block to show a plot with only two genders, male and female. You can also choose between `knit to html` or `knit to pdf`. Compare your knitted html/pdf with your other member of your group. Let us know if you encounter any error.
+
+1. Segmented bar plots, counts
+===========
+```{r}
+ggplot(data = starwars, 
+       mapping = aes(x = gender, 
+                     fill = hair_color)) +
+  geom_bar()
+```
+
+
+2. Segmented bar plots, proportions
+===========
+
+```{r}
+ggplot(data = starwars, 
+       mapping = aes(x = gender, 
+                     fill = hair_color)) +
+  geom_bar(position = "fill") +
+  labs(y = "proportion")
+```
+
+
+3. Segmented counts/proportions plots
+===========
+```{r}
+newData<-starwars[starwars$gender %in% c('male','female'),]
+glimpse(newData)
+```
+
+4. Knit to PDF
+=========
+To be able to knit PDF file from Rmarkdown. Try run the following lines. You will see a warning message saying two error messages will be displayed. Acknowledge it. After two error messages and a long installation process, you should have the ability to generate PDF from Rmarkdown files.
+**You may want to do this after the class today, you will need the Rstudio to complete the group lab**
+```{r, eval=F}
+library(tinytex)
+tinytex::install_tinytex()
+```
+
+To check if you have install successfully. Run these lines in your console. You should see an output of 
+`[1] "test.pdf"` and a `test.pdf` now in your folder.
+```{r, eval=F}
+writeLines(c(
+  '\\documentclass{article}',
+  '\\begin{document}', 'Hello world!', '\\end{document}'
+), 'test.tex')
+tinytex::pdflatex('test.tex')
+```
+
+
